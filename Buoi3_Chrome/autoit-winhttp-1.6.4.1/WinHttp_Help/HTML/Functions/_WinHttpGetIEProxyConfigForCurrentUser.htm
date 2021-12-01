@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpGetIEProxyConfigForCurrentUser</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpGetIEProxyConfigForCurrentUser</h1>
+        <p class="funcdesc">Retrieves the Internet Explorer proxy configuration for the current user.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpGetIEProxyConfigForCurrentUser()<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <p>&nbsp;None.</p><br>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns array with 4 elements:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$array[0] - if 1 indicates that the IE proxy configuration for the current user specifies "automatically detect settings",<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$array[1] - auto-configuration URL if the IE proxy configuration for the current user specifies "Use automatic proxy configuration",<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$array[2] - proxy URL if the IE proxy configuration for the current user specifies "use a proxy server",<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$array[3] - optional proxy by-pass server list.<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 - Internal failure.</p>
+
+<!--Remarks Section-->
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpDetectAutoProxyConfigUrl")' href="_WinHttpDetectAutoProxyConfigUrl.htm">_WinHttpDetectAutoProxyConfigUrl</a>, <a onclick='UpdateLocation("_WinHttpGetDefaultProxyConfiguration")' href="_WinHttpGetDefaultProxyConfiguration.htm">_WinHttpGetDefaultProxyConfiguration</a>, <a onclick='UpdateLocation("_WinHttpSetDefaultProxyConfiguration")' href="_WinHttpSetDefaultProxyConfiguration.htm">_WinHttpSetDefaultProxyConfiguration</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384096.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384096.aspx", "_WinHttpGetIEProxyConfigForCurrentUser");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br>
+<span class="S11">#include<span class="S7">&nbsp;&lt;Array.au3&gt;</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; Internet Explorer proxy configuration for the current user:</span><br>
+Global<span class="S9">&nbsp;$aIEproxy</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpGetIEProxyConfigForCurrentUser</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S15">_ArrayDisplay</span><span class="S8">(</span><span class="S9">$aIEproxy</span><span class="S8">,</span><span class="S7">&nbsp;"Internet Explorer proxy configuration"</span><span class="S8">)</span><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

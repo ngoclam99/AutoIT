@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpQueryAuthSchemes</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpQueryAuthSchemes</h1>
+        <p class="funcdesc">Returns the authorization schemes that are supported by the server.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpQueryAuthSchemes($hRequest, Byref $iSupportedSchemes, Byref $iFirstScheme, Byref $iAuthTarget)<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hRequest</td>
+                <td class="rightpane">Valid handle returned by _WinHttpSendRequest().</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iSupportedSchemes</td>
+                <td class="rightpane"><b>[out]</b> Supported authentication schemes. See remarks.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iFirstScheme</td>
+                <td class="rightpane"><b>[out]</b> First authentication scheme listed by the server. See remarks.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iAuthTarget</td>
+                <td class="rightpane"><b>[out]</b> A flag that contains the authentication target. See remarks.</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns 1<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed</p>
+
+<!--Remarks Section-->
+        <h2>Remarks</h2>
+        <p>_WinHttpQueryAuthSchemes() is called after _WinHttpQueryHeaders().
+<br>Arguments are accepted ByRef.
+<br>Both <span class="codelike">$iSupportedSchemes</span> and <span class="codelike">$iFirstScheme</span> is set to combination of any of <span class="codelike">$WINHTTP_AUTH_SCHEME_</span> flags.
+<br><span class="codelike">$iAuthTarget</span> parameter is set to one or more <span class="codelike">$WINHTTP_AUTH_TARGET_</span> constants values.</p>
+        <br>
+
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpSetCredentials")' href="_WinHttpSetCredentials.htm">_WinHttpSetCredentials</a>, <a onclick='UpdateLocation("_WinHttpQueryHeaders")' href="_WinHttpQueryHeaders.htm">_WinHttpQueryHeaders</a>, <a onclick='UpdateLocation("_WinHttpOpenRequest")' href="_WinHttpOpenRequest.htm">_WinHttpOpenRequest</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384100.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384100.aspx", "_WinHttpQueryAuthSchemes");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+Global<span class="S5">&nbsp;Const</span><span class="S9">&nbsp;$sAddress</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"192.168.1.1"</span><span class="S2">&nbsp;; some address that requires authorization</span><br><br>
+<span class="S2">; Credentials (incorrect values here - the example will fail therefore!)</span><br>
+Global<span class="S5">&nbsp;Const</span><span class="S9">&nbsp;$sUserName</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"user"</span><span class="S8">,</span><span class="S9">&nbsp;$sPassword</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"password"</span><br><br>
+<span class="S2">; Login and print the result to the console</span><br>
+<span class="S4">ConsoleWrite</span><span class="S8">(</span><span class="S15">_LoginExample</span><span class="S8">(</span><span class="S9">$sAddress</span><span class="S8">,</span><span class="S9">&nbsp;$sUserName</span><span class="S8">,</span><span class="S9">&nbsp;$sPassword</span><span class="S8">)</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br><br><br>
+<span class="S2">; The function</span><br>
+Func<span class="S15">&nbsp;_LoginExample</span><span class="S8">(</span><span class="S9">$sAddress</span><span class="S8">,</span><span class="S9">&nbsp;$sUserName</span><span class="S8">,</span><span class="S9">&nbsp;$sPassword</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$sOut</span><span class="S2">&nbsp;; this variable data will be returned</span><br><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; Initialize and get session handle</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S9">&nbsp;$hOpen</span><span class="S5">&nbsp;Then</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Get connection handle</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$sAddress</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S9">&nbsp;$hConnect</span><span class="S5">&nbsp;Then</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Specify the reguest</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$hRequest</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpenRequest</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S9">&nbsp;$hRequest</span><span class="S5">&nbsp;Then</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Send the request</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpSendRequest</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Wait for the response</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpReceiveResponse</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Query status code</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$iStatusCode</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpQueryHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S9">&nbsp;$WINHTTP_QUERY_STATUS_CODE</span><span class="S8">)</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Check status code</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S9">&nbsp;$iStatusCode</span><span class="S8">&nbsp;=</span><span class="S9">&nbsp;$HTTP_STATUS_DENIED</span><span class="S5">&nbsp;Or</span><span class="S9">&nbsp;$iStatusCode</span><span class="S8">&nbsp;=</span><span class="S9">&nbsp;$HTTP_STATUS_PROXY_AUTH_REQ</span><span class="S5">&nbsp;Then</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Query Authorization scheme</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$iSupportedSchemes</span><span class="S8">,</span><span class="S9">&nbsp;$iFirstScheme</span><span class="S8">,</span><span class="S9">&nbsp;$iAuthTarget</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S15">&nbsp;_WinHttpQueryAuthSchemes</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S9">&nbsp;$iSupportedSchemes</span><span class="S8">,</span><span class="S9">&nbsp;$iFirstScheme</span><span class="S8">,</span><span class="S9">&nbsp;$iAuthTarget</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Set passed credentials</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpSetCredentials</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S9">&nbsp;$iAuthTarget</span><span class="S8">,</span><span class="S9">&nbsp;$iFirstScheme</span><span class="S8">,</span><span class="S9">&nbsp;$sUserName</span><span class="S8">,</span><span class="S9">&nbsp;$sPassword</span><span class="S8">)</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Send request again now</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpSendRequest</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; And wait for the response again</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpReceiveResponse</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf</span><br><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Check if there is any data available and read if yes</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$sChunk</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S15">&nbsp;_WinHttpQueryDataAvailable</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While</span><span class="S3">&nbsp;1</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sChunk</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpReadData</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S6">&nbsp;@error</span><span class="S5">&nbsp;Then</span><span class="S5">&nbsp;ExitLoop</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sOut</span><span class="S8">&nbsp;&amp;</span><span class="S8">=</span><span class="S9">&nbsp;$sChunk</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WEnd</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf</span><br><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Close handles when they are not needed any more</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EndIf</span><br>
+<span class="S15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;EndIf</span><br><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; Return whatever is read</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Return</span><span class="S9">&nbsp;$sOut</span><br>
+EndFunc<br><br><br></p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

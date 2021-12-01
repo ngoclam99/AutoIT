@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpSendRequest</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpSendRequest</h1>
+        <p class="funcdesc">Sends the specified request to the HTTP server.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpSendRequest($hRequest [, $sHeaders = Default [, $sOptional = Default [, $iTotalLength = Default [, $iContext = Default ]]]])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hRequest</td>
+                <td class="rightpane">Handle returned by _WinHttpOpenRequest().</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sHeaders</td>
+                <td class="rightpane"><b>[optional]</b> Additional headers to append to the request. Default is $WINHTTP_NO_ADDITIONAL_HEADERS.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$vOptional</td>
+                <td class="rightpane"><b>[optional]</b> Optional data to send immediately after the request headers. Default is $WINHTTP_NO_REQUEST_DATA.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iTotalLength</td>
+                <td class="rightpane"><b>[optional]</b> Length, in bytes, of the total optional data sent. Default is 0.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iContext</td>
+                <td class="rightpane"><b>[optional]</b> Application-defined value that is passed, with the request handle, to any callback functions. Default is 0.</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns 1.<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed</p>
+
+<!--Remarks Section-->
+        <h2>Remarks</h2>
+        <p>Specifying optional data <span class="codelike">$vOptional</span> will cause <span class="codelike">$iTotalLength</span> to receive the size of that data if left default value.</p>
+        <br>
+
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpOpenRequest")' href="_WinHttpOpenRequest.htm">_WinHttpOpenRequest</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384110.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384110.aspx", "_WinHttpSendRequest");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S2">; http://www.w3schools.com/php/demo_form_validation_escapechar.php</span><br><br>
+<span class="S9">$sUserName</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"SomeUserName"</span><br>
+<span class="S9">$sEmail</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"some.email@something.com"</span><br><br>
+<span class="S9">$sDomain</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"www.w3schools.com"</span><br>
+<span class="S9">$sPage</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"/php/demo_form_validation_escapechar.php"</span><br><br>
+<span class="S2">; Data to send</span><br>
+<span class="S9">$sAdditionalData</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"name="</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sUserName</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"&amp;email="</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sEmail</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+<span class="S9">$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S7">"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0"</span><span class="S8">)</span><br><br>
+<span class="S2">; Get connection handle</span><br>
+<span class="S9">$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$sDomain</span><span class="S8">)</span><br><br>
+<span class="S2">; Make a request</span><br>
+<span class="S9">$hRequest</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpenRequest</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S7">&nbsp;"POST"</span><span class="S8">,</span><span class="S9">&nbsp;$sPage</span><span class="S8">)</span><br><br>
+<span class="S2">; Send it. Specify additional data to send too. This is required by the Google API:</span><br>
+<span class="S15">_WinHttpSendRequest</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S7">&nbsp;"Content-Type: application/x-www-form-urlencoded"</span><span class="S8">,</span><span class="S9">&nbsp;$sAdditionalData</span><span class="S8">)</span><br><br>
+<span class="S2">; Wait for the response</span><br>
+<span class="S15">_WinHttpReceiveResponse</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br><br>
+<span class="S2">; See what's returned</span><br>
+Dim<span class="S9">&nbsp;$sReturned</span><br>
+If<span class="S15">&nbsp;_WinHttpQueryDataAvailable</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><span class="S2">&nbsp;; if there is data</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Do</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sReturned</span><span class="S8">&nbsp;&amp;</span><span class="S8">=</span><span class="S15">&nbsp;_WinHttpReadData</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Until</span><span class="S6">&nbsp;@error</span><br>
+EndIf<br><br><span class="S2">; Close handles</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+<span class="S2">; See what's returned</span><br>
+<span class="S4">MsgBox</span><span class="S8">(</span><span class="S3">4096</span><span class="S8">,</span><span class="S7">&nbsp;"Returned"</span><span class="S8">,</span><span class="S9">&nbsp;$sReturned</span><span class="S8">)</span><br>
+<span class="S4">ConsoleWrite</span><span class="S8">(</span><span class="S9">$sReturned</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

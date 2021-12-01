@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpDetectAutoProxyConfigUrl</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpDetectAutoProxyConfigUrl</h1>
+        <p class="funcdesc">Finds the URL for the Proxy Auto-Configuration (PAC) file.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpDetectAutoProxyConfigUrl($iAutoDetectFlags)<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$iAutoDetectFlags</td>
+                <td class="rightpane">Specifies what protocols to use to locate the PAC file.</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns URL for the PAC file.<br>
+        Failure - Returns empty string and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 - Internal failure.</p>
+
+<!--Remarks Section-->
+        <h2>Remarks</h2>
+        <p><span class="codelike">$iAutoDetectFlags</span> values are defined in WinHttpconstants.au3</p>
+        <br>
+
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpGetDefaultProxyConfiguration")' href="_WinHttpGetDefaultProxyConfiguration.htm">_WinHttpGetDefaultProxyConfiguration</a>, <a onclick='UpdateLocation("_WinHttpGetIEProxyConfigForCurrentUser")' href="_WinHttpGetIEProxyConfigForCurrentUser.htm">_WinHttpGetIEProxyConfigForCurrentUser</a>, <a onclick='UpdateLocation("_WinHttpSetDefaultProxyConfiguration")' href="_WinHttpSetDefaultProxyConfiguration.htm">_WinHttpSetDefaultProxyConfiguration</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384094.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384094.aspx", "_WinHttpDetectAutoProxyConfigUrl");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; This could take some time</span><br>
+Global<span class="S9">&nbsp;$sPACurl</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpDetectAutoProxyConfigUrl</span><span class="S8">(</span><span class="S4">BitOR</span><span class="S8">(</span><span class="S9">$WINHTTP_AUTO_DETECT_TYPE_DHCP</span><span class="S8">,</span><span class="S9">&nbsp;$WINHTTP_AUTO_DETECT_TYPE_DNS_A</span><span class="S8">)</span><span class="S8">)</span><br><br>
+<span class="S4">MsgBox</span><span class="S8">(</span><span class="S3">64</span><span class="S8">,</span><span class="S7">&nbsp;"_WinHttpDetectAutoProxyConfigUrl"</span><span class="S8">,</span><span class="S7">&nbsp;"The URL for the Proxy Auto-Configuration (PAC) file is: "</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sPACurl</span><span class="S8">)</span><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpSimpleFormFill</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpSimpleFormFill</h1>
+        <p class="funcdesc">Fills web form.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpSimpleFormFill(ByRef $hInternet [, $sActionPage = Default [, $sFormId = Default [, $sFldId1 = Default [, $sDta1 = Default [, (...) [, $sAdditionalData]]]]]])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hInternet</td>
+                <td class="rightpane">Handle returned by _WinHttpConnect() or string variable with form.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sActionPage</td>
+                <td class="rightpane"><b>[optional]</b> path to the page with form or session handle if $hInternet is string (default: "" - empty string; meaning 'default' page on the server in former).</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sFormId</td>
+                <td class="rightpane"><b>[optional]</b> Id of the form. Can be name or zero-based index too (read Remarks section).</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sFldId1</td>
+                <td class="rightpane"><b>[optional]</b> Id of the input.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sDta1</td>
+                <td class="rightpane"><b>[optional]</b> Data to set to coresponding field.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">(...)</td>
+                <td class="rightpane"><b>[optional]</b> Other pairs of Id/Data. Overall number of fields is 40.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sAdditionalData</td>
+                <td class="rightpane"><b>[optional]</b> Additional data (read Remarks section).</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns HTML source of the page returned by the server on submited form. @extended is set to HTTP status code.<br>
+        Failure - Returns empty string and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - No forms on the page<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 - Invalid form<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 - No forms with specified attributes on the page<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 - Connection problems<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 - form's "action" is invalid<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6 - invalid session handle passed</p>
+
+<!--Remarks Section-->
+        <h2>Remarks</h2>
+        <p>In case form requires redirection and <span class="codelike">$hInternet</span> is internet handle, this handle will be closed and replaced with new and required one.
+<br>When <span class="codelike">$hInternet</span> is form string, form's "action" must specify URL and <span class="codelike">$sActionPage</span> parameter must be session handle. On succesful call this variable will be changed to connection handle of the internally made connection.
+    Don't forget to close this handle after the function returns and when no longer needed.
+<br><span class="codelike">$sFormId</span> specifies Id of the form same as <span class="codelike">.getElementById(FormId)</span>. Aditionally you can use <span class="codelike">"index:FormIndex"</span> to
+    identify form by its zero-based index number (in case of e.g. three forms on some page first one will have index=0, second index=1, third index=2).
+    Use <span class="codelike">"name:FormName"</span> to identify form by its name like with <span class="codelike">.getElementsByName(FormName)</span>. FormName will be taken to be what's right of colon mark.
+    In that case first form with that name is filled.
+<br>As for fields, If <span class="codelike">"name:FieldName"</span> option is used all the fields except last with that name are removed from the form. Last one is filled with specified <span class="codelike">$sDta</span> data.
+<br>This function can be used to fill forms with up to 40 fields at once.
+<br>"Submit" control you want to keep (click) set to True. If no such control is set then the first one found in the form is "clicked". You can also use <span class="codelike">"type:submit", zero_based_index_of_the_submit</span> to "click" if no id or name is available.
+<br>All other "submit" controls are removed from the submited form (including images).
+<br>If form is submitted by clicking an image then pass click coordinates <span class="codelike">"name:image_name", "Xcoord,Ycoord"</span> or <span class="codelike">"image_id", "Xcoord,Ycoord"</span>. If the image has no name or id then you can use its index of appearance <span class="codelike">"type:image", "zero_based_index_of_the_image Xcoord,Ycoord"</span>.
+<br>"Checkbox" and "Button" input types are removed from the submitted form unless explicitly set. Same goes for "Radio" with exception that
+    only one such control can be set, the rest are removed. These controls are set by their values. Wrong value makes them invalid and therefore not part of the submited data.
+<br>All other non-set fields are left default.
+<br>Last (superfluous) <span class="codelike">$sAdditionalData</span> argument can be used to pass authorization credentials in form <span class="codelike">"[CRED:username:password]"</span>, magic string to ignore certificate errors in form <span class="codelike">"[IGNORE_CERT_ERRORS]"</span>, change output type to extended array with <span class="codelike">"[RETURN_ARRAY]"</span> moniker, and/or HTTP request header data to add.
+    If array is returned then <span class="codelike">array[0]</span> is the response header, <span class="codelike">array[1]</span> is returned data and <span class="codelike">array[2]</span> is URL of the final request.
+<br>
+<br>If this function is used to upload multiple files then there are two available ways. Default would be to submit the form following RFC2388 specification.
+    In that case every file is represented as multipart/mixed part embedded within the multipart/form-data.
+<br>If you want to upload using alternative way (to avoid certain PHP bug that could exist on server side) then prefix the file string with <span class="codelike">"PHP#50338:"</span> string.
+<br>For example: <span class="codelike">..."name:files[]", "PHP#50338:" & $sFile1 & "|" & $sFile2 ...</span>
+<br>Muliple files are always separated with vertical line ASCII character when filling the form.</p>
+        <br>
+
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpConnect")' href="_WinHttpConnect.htm">_WinHttpConnect</a>, <a onclick='UpdateLocation("_WinHttpSimpleFormFill_SetUploadCallback")' href="_WinHttpSimpleFormFill_SetUploadCallback.htm">_WinHttpSimpleFormFill_SetUploadCallback</a>
+        <br>
+
+<!--Link Section-->
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$hConnect</span><br>
+Global<span class="S9">&nbsp;$sRead</span><span class="S8">,</span><span class="S9">&nbsp;$hFileHTM</span><span class="S8">,</span><span class="S9">&nbsp;$sFileHTM</span><span class="S8">&nbsp;=</span><span class="S6">&nbsp;@ScriptDir</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"\Form.htm"</span><br><br>
+<span class="S2">; Example1:</span><br>
+<span class="S2">; 1. Open APNIC whois page (http://wq.apnic.net/apnic-bin/whois.pl)</span><br>
+<span class="S2">; 2. Fill form on that page with these values/conditins:</span><br>
+<span class="S2">; - fill default form</span><br>
+<span class="S2">; - set ip address 4.2.2.2 to input box. Use name propery to locate input</span><br>
+<span class="S2">; - send form (click button)</span><br>
+<span class="S2">; - gather returned data</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+<span class="S9">$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S2">; Get connection handle</span><br>
+<span class="S9">$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"wq.apnic.net"</span><span class="S8">)</span><br>
+<span class="S2">; Fill form on this page</span><br>
+<span class="S9">$sRead</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpSimpleFormFill</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S7">&nbsp;"apnic-bin/whois.pl"</span><span class="S8">,</span><span class="S5">&nbsp;Default</span><span class="S8">,</span><span class="S7">&nbsp;"name:searchtext"</span><span class="S8">,</span><span class="S7">&nbsp;"4.2.2.2"</span><span class="S8">,</span><span class="S7">&nbsp;"name:object_type"</span><span class="S8">,</span><span class="S7">&nbsp;"All"</span><span class="S8">)</span><br>
+<span class="S2">; Close connection handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S2">; Close session handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+<span class="S2">; See what's returned (in default browser or whatever)</span><br>
+If<span class="S9">&nbsp;$sRead</span><span class="S5">&nbsp;Then</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">64</span><span class="S8">&nbsp;+</span><span class="S3">&nbsp;262144</span><span class="S8">,</span><span class="S7">&nbsp;"Done!"</span><span class="S8">,</span><span class="S7">&nbsp;"Will open returned page in your default browser now."</span><span class="S8">)</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;$hFileHTM</span><span class="S8">&nbsp;=</span><span class="S4">&nbsp;FileOpen</span><span class="S8">(</span><span class="S9">$sFileHTM</span><span class="S8">,</span><span class="S3">&nbsp;2</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;FileWrite</span><span class="S8">(</span><span class="S9">$hFileHTM</span><span class="S8">,</span><span class="S9">&nbsp;$sRead</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;FileClose</span><span class="S8">(</span><span class="S9">$hFileHTM</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ShellExecuteWait</span><span class="S8">(</span><span class="S9">$sFileHTM</span><span class="S8">)</span><br>
+EndIf<br><br><br></p><br>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code_1", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code_1"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$hConnect</span><br>
+Global<span class="S9">&nbsp;$sRead</span><span class="S8">,</span><span class="S9">&nbsp;$hFileHTM</span><span class="S8">,</span><span class="S9">&nbsp;$sFileHTM</span><span class="S8">&nbsp;=</span><span class="S6">&nbsp;@ScriptDir</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"\Form.htm"</span><br><br>
+<span class="S2">; Example 2:</span><br>
+<span class="S2">; 1. Open w3schools forms page (http://www.w3schools.com/html/html_forms.asp)</span><br>
+<span class="S2">; 2. Fill form on that page with these values/conditins:</span><br>
+<span class="S2">; - form is to be identified by its index -0-</span><br>
+<span class="S2">; - set -Miyake- and -Issey- data to input boxes. Locate input boxes by their names -firstname- and -lastname-</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+<span class="S9">$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S2">; Get connection handle</span><br>
+<span class="S9">$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"w3schools.com"</span><span class="S8">)</span><br>
+<span class="S2">; Fill form on this page</span><br>
+<span class="S9">$sRead</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpSimpleFormFill</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S7">&nbsp;"html/html_forms.asp"</span><span class="S8">,</span><span class="S7">&nbsp;"index:0"</span><span class="S8">,</span><span class="S7">&nbsp;"name:firstname"</span><span class="S8">,</span><span class="S7">&nbsp;"Miyake"</span><span class="S8">,</span><span class="S7">&nbsp;"name:lastname"</span><span class="S8">,</span><span class="S7">&nbsp;"Issey"</span><span class="S8">)</span><br>
+<span class="S2">; Close connection handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S2">; Close session handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+If<span class="S9">&nbsp;$sRead</span><span class="S5">&nbsp;Then</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">64</span><span class="S8">&nbsp;+</span><span class="S3">&nbsp;262144</span><span class="S8">,</span><span class="S7">&nbsp;"Done!"</span><span class="S8">,</span><span class="S7">&nbsp;"Will open returned page in your default browser now."</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">&nbsp;&amp;</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"You should see 'Miyake Issey' somewhere on that page."</span><span class="S8">)</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;$hFileHTM</span><span class="S8">&nbsp;=</span><span class="S4">&nbsp;FileOpen</span><span class="S8">(</span><span class="S9">$sFileHTM</span><span class="S8">,</span><span class="S3">&nbsp;2</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;FileWrite</span><span class="S8">(</span><span class="S9">$hFileHTM</span><span class="S8">,</span><span class="S9">&nbsp;$sRead</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;FileClose</span><span class="S8">(</span><span class="S9">$hFileHTM</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ShellExecuteWait</span><span class="S8">(</span><span class="S9">$sFileHTM</span><span class="S8">)</span><br>
+EndIf<br><br></p><br>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code_2", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code_2"><br> 
+<br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+Dim<span class="S9">&nbsp;$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$hConnect</span><br>
+Dim<span class="S9">&nbsp;$sRead</span><br><br>
+<span class="S2">; Example 3:</span><br>
+<span class="S2">; 1. Open cs.tut.fi forms page (http://www.cs.tut.fi/~jkorpela/forms/testing.html)</span><br>
+<span class="S2">; 2. Fill form on that page with these values/conditins:</span><br>
+<span class="S2">; - form is to be identified by its index, It's first form on the page, i.e. index is 0</span><br>
+<span class="S2">; - set -Johnny B. Goode- data to textarea. Locate it by its name -Comments-.</span><br>
+<span class="S2">; - check the checkbox. Locate it by name -box-. Checked value is -yes-.</span><br>
+<span class="S2">; - set -This is hidden, so what?- data to input field identified by name -hidden field-.</span><br>
+<span class="S2">; - gather data</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+<span class="S9">$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S2">; Get connection handle</span><br>
+<span class="S9">$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"www.cs.tut.fi"</span><span class="S8">)</span><br>
+<span class="S2">; Fill form on this page</span><br>
+<span class="S9">$sRead</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpSimpleFormFill</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; connection handle</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"~jkorpela/forms/testing.html"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; target page</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"index:0"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; form identifier</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:Comments"</span><span class="S8">,</span><span class="S7">&nbsp;"Johnny B. Goode"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; first field identifier paired with field data</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:box"</span><span class="S8">,</span><span class="S7">&nbsp;"yes"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; second field identifier paired with data</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:hidden field"</span><span class="S8">,</span><span class="S7">&nbsp;"This is hidden, so what?"</span><span class="S8">)</span><span class="S2">&nbsp;; third field identifier paired with data</span><br>
+<span class="S2">; Close connection handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S2">; Close session handle now that's no longer needed</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+If<span class="S9">&nbsp;$sRead</span><span class="S5">&nbsp;Then</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S9">$sRead</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">64</span><span class="S8">&nbsp;+</span><span class="S3">&nbsp;262144</span><span class="S8">,</span><span class="S7">&nbsp;"Web Page says"</span><span class="S8">,</span><span class="S9">&nbsp;$sRead</span><span class="S8">)</span><br>
+EndIf<br><br><br></p><br>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code_3", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code_3"><br> 
+<br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S9">$sAddress</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"https://posttestserver.com/post.php?dump&amp;dir=WinHttp"</span><span class="S2">&nbsp;; the address of the target  (https or http, makes no difference - handled automatically)</span><br><br>
+<span class="S9">$sFileToUpload</span><span class="S8">&nbsp;=</span><span class="S6">&nbsp;@ScriptFullPath</span><span class="S2">&nbsp;; upload itself</span><br><br>
+<span class="S9">$sForm</span><span class="S8">&nbsp;=</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;form action="'</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sAddress</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;'" method="post" enctype="multipart/form-data"&gt;'</span><span class="S8">&nbsp;&amp;</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'    &lt;input type="file" name="upload"/&gt;'</span><span class="S8">&nbsp;&amp;</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;;</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'   &lt;input type="text" name="someparam" /&gt;'</span><span class="S8">&nbsp;&amp;</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&lt;/form&gt;'</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+<span class="S9">$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br><br>
+<span class="S9">$hConnect</span><span class="S8">&nbsp;=</span><span class="S9">&nbsp;$sForm</span><span class="S2">&nbsp;; will pass form as string so this is for coding correctness because $hConnect goes in byref</span><br><br>
+<span class="S2">; Fill form</span><br>
+<span class="S9">$sHTML</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpSimpleFormFill</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S9">&nbsp;$hOpen</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:upload"</span><span class="S8">,</span><span class="S9">&nbsp;$sFileToUpload</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:someparam"</span><span class="S8">,</span><span class="S7">&nbsp;"Candy"</span><span class="S8">)</span><br><br>
+If<span class="S6">&nbsp;@error</span><span class="S5">&nbsp;Then</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">4096</span><span class="S8">,</span><span class="S7">&nbsp;"Error"</span><span class="S8">,</span><span class="S7">&nbsp;"Error number = "</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@error</span><span class="S8">)</span><br>
+Else<br><span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S9">$sHTML</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br>
+EndIf<br><br><span class="S2">; Close handles</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br><br>
+</p><br>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code_4", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code_4"><br> 
+<span class="S11">#include<span class="S7">&nbsp;&lt;Array.au3&gt;</span></span><br>
+<span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S2">; Example 5:</span><br>
+<span class="S2">; 1. Open www.cs.tut.fi forms page (https://www.cs.tut.fi/~jkorpela/forms/testing.html)</span><br>
+<span class="S2">; 2. Fill form on that page with these values/conditins:</span><br>
+<span class="S2">; - form is to be identified by its index -1-</span><br>
+<span class="S2">; - set -Something- and -this script- data to input boxes. Locate input boxes by their names -textfield- and -filefield-</span><br>
+<span class="S2">; 2. Return array</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+<span class="S9">$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S2">; Get connection handle</span><br>
+<span class="S9">$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"https://www.cs.tut.fi"</span><span class="S8">)</span><br>
+<span class="S2">; Fill form on this page</span><br>
+<span class="S9">$aRead</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpSimpleFormFill</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S7">&nbsp;"~jkorpela/forms/testing.html"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"index:1"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:textfield"</span><span class="S8">,</span><span class="S7">&nbsp;"Testing file upload"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:filefield"</span><span class="S8">,</span><span class="S6">&nbsp;@ScriptFullPath</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"[RETURN_ARRAY]"</span><span class="S8">)</span><br><br>
+<span class="S2">; Close connection handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S2">; Close session handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+<span class="S15">_ArrayDisplay</span><span class="S8">(</span><span class="S9">$aRead</span><span class="S8">)</span><br><br><br>
+</p><br>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code_5", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code_5"><br> 
+<span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S2">; Example 5:</span><br>
+<span class="S2">; 1. Open try.coderlearner.com form-action page (http://try.coderlearner.com/html5/form/form_formaction_ex_2.html)</span><br>
+<span class="S2">; 2. Fill form on that page with these values/conditins:</span><br>
+<span class="S2">; - form is default one</span><br>
+<span class="S2">; - set -User- and -Password- data to input boxes. Locate input boxes by their names -loginName- and -loginPass-</span><br>
+<span class="S2">; - click third button (register action)</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+<span class="S9">$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S2">; Get connection handle</span><br>
+<span class="S9">$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"http://try.coderlearner.com"</span><span class="S8">)</span><br>
+<span class="S2">; Fill form on this page</span><br>
+<span class="S9">$aRead</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpSimpleFormFill</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S7">&nbsp;"html5/form/form_formaction_ex_2.html"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:loginName"</span><span class="S8">,</span><span class="S7">&nbsp;"User"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name:loginPass"</span><span class="S8">,</span><span class="S7">&nbsp;"Password"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type:submit"</span><span class="S8">,</span><span class="S3">&nbsp;2</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; third button (zero-based counting scheme)</span><br>
+<span class="S8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</span><br>
+<span class="S2">; Close connection handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S2">; Close session handle</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+<span class="S4">MsgBox</span><span class="S8">(</span><span class="S3">4096</span><span class="S8">,</span><span class="S7">&nbsp;"Returned"</span><span class="S8">,</span><span class="S9">&nbsp;$aRead</span><span class="S8">)</span><br><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

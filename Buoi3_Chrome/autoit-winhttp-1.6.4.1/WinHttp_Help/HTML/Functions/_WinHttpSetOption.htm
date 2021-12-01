@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpSetOption</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpSetOption</h1>
+        <p class="funcdesc">Sets an Internet option.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpSetOption($hInternet, $iOption, $vSetting [, $iSize = Default ])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hInternet</td>
+                <td class="rightpane">Handle on which to set data.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iOption</td>
+                <td class="rightpane">Integer value that contains the Internet option to set.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$vSetting</td>
+                <td class="rightpane">Value of setting</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iSize</td>
+                <td class="rightpane"><b>[optional]</b> Size of $vSetting, required if $vSetting is pointer to memory block</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns 1.<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - Invalid Internet option<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 - Size required<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 - Datatype of value does not fit to option<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 - DllCall failed</p>
+
+<!--Remarks Section-->
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpQueryOption")' href="_WinHttpQueryOption.htm">_WinHttpQueryOption</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384114.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384114.aspx", "_WinHttpSetOption");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br><br>
+<span class="S2">; Set User-Agent string</span><br>
+<span class="S15">_WinHttpSetOption</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$WINHTTP_OPTION_USER_AGENT</span><span class="S8">,</span><span class="S7">&nbsp;"Mozilla/5.0 (Windows; U; Windows NT 6.1; ru; rv:1.9.2.3) Gecko/20100401 Firefox/4.0 (.NET CLR 3.5.30729)"</span><span class="S8">)</span><br><br>
+<span class="S2">; Get connection handle</span><br>
+Global<span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"google.com"</span><span class="S8">)</span><br><br>
+<span class="S2">; Specify the reguest:</span><br>
+Global<span class="S9">&nbsp;$hRequest</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpenRequest</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br><br>
+<span class="S2">; Send request</span><br>
+<span class="S15">_WinHttpSendRequest</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br><br>
+<span class="S2">; Wait for the response</span><br>
+<span class="S15">_WinHttpReceiveResponse</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br><br>
+Global<span class="S9">&nbsp;$sHeader</span><br>
+<span class="S2">; If there is data available...</span><br>
+If<span class="S15">&nbsp;_WinHttpQueryDataAvailable</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><span class="S9">&nbsp;$sHeader</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpQueryHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S2">&nbsp;; ...get full header</span><br><br>
+<span class="S2">; Clean</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+<span class="S2">; Display retrieved header</span><br>
+<span class="S4">ConsoleWrite</span><span class="S8">(</span><span class="S9">$sHeader</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br><br><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

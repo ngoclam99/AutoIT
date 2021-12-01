@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpConnect</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpConnect</h1>
+        <p class="funcdesc">Specifies the initial target server of an HTTP request and returns connection handle to an HTTP session for that initial target.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpConnect($hSession, $sServerName [, $iServerPort = Default ])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hSession</td>
+                <td class="rightpane">Valid WinHttp session handle returned by a previous call to _WinHttpOpen().</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sServerName</td>
+                <td class="rightpane">Host name of an HTTP server. In case URI scheme (http://, https://, ...) is specified $iServerPort is ignored.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iServerPort</td>
+                <td class="rightpane"><b>[optional]</b> TCP/IP port on the server to which a connection is made (default is $INTERNET_DEFAULT_PORT)</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns a valid connection handle to the HTTP session<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed</p>
+
+<!--Remarks Section-->
+        <h2>Remarks</h2>
+        <p><span class="codelike">$iServerPort</span> can be defined via global constants <span class="codelike">$INTERNET_DEFAULT_PORT</span>, <span class="codelike">$INTERNET_DEFAULT_HTTP_PORT</span> or <span class="codelike">$INTERNET_DEFAULT_HTTPS_PORT</span></p>
+        <br>
+
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpOpen")' href="_WinHttpOpen.htm">_WinHttpOpen</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384091.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384091.aspx", "_WinHttpConnect");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br><br>
+<span class="S2">; Get connection handle</span><br>
+Global<span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"http://www.pravda.ru"</span><span class="S8">)</span><br>
+If<span class="S6">&nbsp;@error</span><span class="S5">&nbsp;Then</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">48</span><span class="S8">,</span><span class="S7">&nbsp;"Error"</span><span class="S8">,</span><span class="S7">&nbsp;"Error getting connection handle."</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"Error number is "</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@error</span><span class="S8">)</span><br>
+Else<br><span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S7">"+ Connection handle $hConnect = "</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">64</span><span class="S8">,</span><span class="S7">&nbsp;"Yes!"</span><span class="S8">,</span><span class="S7">&nbsp;"Handle is get! $hConnect = "</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$hConnect</span><span class="S8">)</span><br>
+EndIf<br><br><span class="S2">; Close handles</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

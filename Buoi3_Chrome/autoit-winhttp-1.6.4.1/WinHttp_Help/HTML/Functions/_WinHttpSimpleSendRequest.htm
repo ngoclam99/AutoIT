@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpSimpleSendRequest</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpSimpleSendRequest</h1>
+        <p class="funcdesc">A function to send a request in a simpler form, but not read the data<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpSimpleSendRequest($hConnect, $sType, $sPath [, $sReferrer = Default [, $sDta = Default [, $sHeader = Default ]]])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hConnect</td>
+                <td class="rightpane">Handle from _WinHttpConnect</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sType</td>
+                <td class="rightpane"><b>[optional]</b> GET or POST (default: GET)</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sPath</td>
+                <td class="rightpane"><b>[optional]</b> request path (default: "" - empty string; meaning 'default' page on the server)</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sReferrer</td>
+                <td class="rightpane"><b>[optional]</b> referrer (default: $WINHTTP_NO_REFERER)</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sDta</td>
+                <td class="rightpane"><b>[optional]</b> POST-Data (default: $WINHTTP_NO_REQUEST_DATA)</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sHeader</td>
+                <td class="rightpane"><b>[optional]</b> additional Headers (default: $WINHTTP_NO_ADDITIONAL_HEADERS)</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success      - handle of request after _WinHttpReceiveResponse.<br>
+        Failure      - 0 and set @error<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - could not open request<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 - could not send request<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 - could not receive response</p>
+
+<!--Remarks Section-->
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpSimpleRequest")' href="_WinHttpSimpleRequest.htm">_WinHttpSimpleRequest</a>, <a onclick='UpdateLocation("_WinHttpSimpleSendSSLRequest")' href="_WinHttpSimpleSendSSLRequest.htm">_WinHttpSimpleSendSSLRequest</a>, <a onclick='UpdateLocation("_WinHttpSimpleReadData")' href="_WinHttpSimpleReadData.htm">_WinHttpSimpleReadData</a>
+        <br>
+
+<!--Link Section-->
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S2">; Get connection handle</span><br>
+Global<span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"w3schools.com"</span><span class="S8">)</span><br>
+<span class="S2">; Make a request</span><br>
+Global<span class="S9">&nbsp;$hRequest</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpSimpleSendRequest</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S5">&nbsp;Default</span><span class="S8">,</span><span class="S7">&nbsp;"tags/tag_input.asp"</span><span class="S8">)</span><br><br>
+If<span class="S9">&nbsp;$hRequest</span><span class="S5">&nbsp;Then</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; Simple-read...</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S15">_WinHttpSimpleReadData</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">64</span><span class="S8">,</span><span class="S7">&nbsp;"Okey do!"</span><span class="S8">,</span><span class="S7">&nbsp;"Returned source is print to concole. Check it."</span><span class="S8">)</span><br>
+Else<br><span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">48</span><span class="S8">,</span><span class="S7">&nbsp;"Error"</span><span class="S8">,</span><span class="S7">&nbsp;"Error ocurred for _WinHttpSimpleSendRequest, Error number is "</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@error</span><span class="S8">)</span><br>
+EndIf<br><br><span class="S2">; Close handles</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

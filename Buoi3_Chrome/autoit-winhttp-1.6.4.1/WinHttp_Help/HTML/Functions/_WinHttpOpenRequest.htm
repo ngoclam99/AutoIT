@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpOpenRequest</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpOpenRequest</h1>
+        <p class="funcdesc">Creates an HTTP request handle.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpOpenRequest($hConnect [, $sVerb = Default [, $sObjectName = Default [, $sVersion = Default [, $sReferrer = Default [, $sAcceptTypes = Default [, $iFlags = Default ]]]]]])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hConnect</td>
+                <td class="rightpane">Handle to an HTTP session returned by _WinHttpConnect().</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sVerb</td>
+                <td class="rightpane"><b>[optional]</b> HTTP verb to use in the request. Default is "GET".</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sObjectName</td>
+                <td class="rightpane"><b>[optional]</b> The name of the target resource of the specified HTTP verb.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sVersion</td>
+                <td class="rightpane"><b>[optional]</b> HTTP version. Default is "HTTP/1.1"</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sReferrer</td>
+                <td class="rightpane"><b>[optional]</b> URL of the document from which the URL in the request $sObjectName was obtained. Default is $WINHTTP_NO_REFERER.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sAcceptTypes</td>
+                <td class="rightpane"><b>[optional]</b> Media types accepted by the client. Default is $WINHTTP_DEFAULT_ACCEPT_TYPES</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iFlags</td>
+                <td class="rightpane"><b>[optional]</b> Integer specifying the Internet flag values. Default is $WINHTTP_FLAG_ESCAPE_DISABLE</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns valid session handle.<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed</p>
+
+<!--Remarks Section-->
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpCloseHandle")' href="_WinHttpCloseHandle.htm">_WinHttpCloseHandle</a>, <a onclick='UpdateLocation("_WinHttpConnect")' href="_WinHttpConnect.htm">_WinHttpConnect</a>, <a onclick='UpdateLocation("_WinHttpSendRequest")' href="_WinHttpSendRequest.htm">_WinHttpSendRequest</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384099.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384099.aspx", "_WinHttpOpenRequest");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; !!!Note that this example will fail because of invalid username and password!!!</span><br><br>
+<span class="S2">; Authentication data</span><br>
+Global<span class="S9">&nbsp;$sUsername</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"UserName"</span><br>
+Global<span class="S9">&nbsp;$sPassword</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Password"</span><br><br>
+<span class="S2">; Address</span><br>
+Global<span class="S9">&nbsp;$sAddress</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"space.livevn.com"</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br><br>
+<span class="S2">; Get connection handle</span><br>
+Global<span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$sAddress</span><span class="S8">)</span><br><br>
+<span class="S2">; Request</span><br>
+Global<span class="S9">&nbsp;$hRequest</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpenRequest</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"POST"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; verb</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/do.php?ac=71ee30ae117cddace55bd01714904227&amp;&amp;ref"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; target</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;; version</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"http://space.livevn.com/index.php"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; referer</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"*/*"</span><span class="S8">)</span><span class="S2">&nbsp;; accept</span><br><br>
+<span class="S2">; Send it</span><br>
+<span class="S15">_WinHttpSendRequest</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Content-Type: application/x-www-form-urlencoded"</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username="</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sUsername</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"&amp;password="</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sPassword</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"&amp;loginsubmit=&amp;loginsubmit=loginnnnnnnnnnn&amp;refer=network.html&amp;formhash=c51a94db"</span><span class="S8">)</span><br><br>
+<span class="S2">; Wait for the response</span><br>
+<span class="S15">_WinHttpReceiveResponse</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br><br>
+<span class="S2">; See what's returned</span><br>
+If<span class="S15">&nbsp;_WinHttpQueryDataAvailable</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Global</span><span class="S9">&nbsp;$sHeader</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpQueryHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S9">$sHeader</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; Check if proper cookie is given</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;If</span><span class="S4">&nbsp;StringInStr</span><span class="S8">(</span><span class="S9">$sHeader</span><span class="S8">,</span><span class="S7">&nbsp;'Set-Cookie: uchome_loginuser='</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sUsername</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">0</span><span class="S8">,</span><span class="S7">&nbsp;""</span><span class="S8">,</span><span class="S7">&nbsp;"Login success"</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Else</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">0</span><span class="S8">,</span><span class="S7">&nbsp;""</span><span class="S8">,</span><span class="S7">&nbsp;"Login failed"</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;EndIf</span><br>
+Else<br><span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">48</span><span class="S8">,</span><span class="S7">&nbsp;"Error"</span><span class="S8">,</span><span class="S7">&nbsp;"Site is experiencing problems."</span><span class="S8">)</span><br>
+EndIf<br><br><br><span class="S2">; Close open handles and exit</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

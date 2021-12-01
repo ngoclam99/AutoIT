@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpAddRequestHeaders</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpAddRequestHeaders</h1>
+        <p class="funcdesc">Adds one or more HTTP request headers to the HTTP request handle.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpAddRequestHeaders ($hRequest, $sHeaders [, $iModifiers = Default ])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hRequest</td>
+                <td class="rightpane">Handle returned by _WinHttpOpenRequest function.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$sHeader</td>
+                <td class="rightpane"><b>[optional]</b> Header(s) to append to the request.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iModifier</td>
+                <td class="rightpane"><b>[optional]</b> Contains the flags used to modify the semantics of this function. Default is $WINHTTP_ADDREQ_FLAG_ADD_IF_NEW.</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns 1<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed</p>
+
+<!--Remarks Section-->
+        <h2>Remarks</h2>
+        <p>In case of multiple additions at once use <span class="codelike">@CRLF</span> to separate each <span class="codelike">$hRequest</span> and responded <span class="codelike">$sHeaders</span> and <span class="codelike">$iModifiers</span>.</p>
+        <br>
+
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpOpenRequest")' href="_WinHttpOpenRequest.htm">_WinHttpOpenRequest</a>, <a onclick='UpdateLocation("_WinHttpQueryHeaders")' href="_WinHttpQueryHeaders.htm">_WinHttpQueryHeaders</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384087.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384087.aspx", "_WinHttpAddRequestHeaders");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; !!!Note that this example will fail because of invalid username and password!!!</span><br><br>
+Global<span class="S9">&nbsp;$sAddress</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"secure.imdb.com"</span><br>
+Global<span class="S9">&nbsp;$sUserName</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"SomeUserName"</span><br>
+Global<span class="S9">&nbsp;$sPassword</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"SomePassword"</span><br>
+<span class="S2">; Post data:</span><br>
+Global<span class="S9">&nbsp;$sPostData</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"login="</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sUserName</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"&amp;password="</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sPassword</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"&amp;u=https%3A%2F%2Fsecure.imdb.com%2Fregister-imdb%2Flogin"</span><br><br>
+<span class="S2">; Initialize and get session handle</span><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S7">"Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"</span><span class="S8">)</span><br><br>
+<span class="S2">; Get connection handle</span><br>
+Global<span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$sAddress</span><span class="S8">,</span><span class="S9">&nbsp;$INTERNET_DEFAULT_HTTPS_PORT</span><span class="S8">)</span><br><br>
+<span class="S2">; Make a request</span><br>
+Global<span class="S9">&nbsp;$hRequest</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpenRequest</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"POST"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"register-imdb/login"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"</span><span class="S8">,</span><span class="S8">&nbsp;_</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$WINHTTP_FLAG_SECURE</span><span class="S8">)</span><br><br>
+<span class="S2">; Add header fields to the request</span><br>
+<span class="S15">_WinHttpAddRequestHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S7">&nbsp;"Accept-Language: en-us,en;q=0.5"</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpAddRequestHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S7">&nbsp;"Content-Type: application/x-www-form-urlencoded"</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpAddRequestHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S7">&nbsp;"Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7"</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpAddRequestHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S7">&nbsp;"Keep-Alive: 300"</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpAddRequestHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S7">&nbsp;"Connection: keep-alive"</span><span class="S8">)</span><br><br>
+<span class="S2">; Send it</span><br>
+<span class="S15">_WinHttpSendRequest</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">,</span><span class="S8">&nbsp;-</span><span class="S3">1</span><span class="S8">,</span><span class="S9">&nbsp;$sPostData</span><span class="S8">)</span><br>
+<span class="S2">; Wait for the response</span><br>
+<span class="S15">_WinHttpReceiveResponse</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S2">; Check if there is a response</span><br>
+Global<span class="S9">&nbsp;$sHeader</span><span class="S8">,</span><span class="S9">&nbsp;$sReturned</span><br>
+If<span class="S15">&nbsp;_WinHttpQueryDataAvailable</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;$sHeader</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpQueryHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">64</span><span class="S8">,</span><span class="S7">&nbsp;"Header"</span><span class="S8">,</span><span class="S9">&nbsp;$sHeader</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Do</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sReturned</span><span class="S8">&nbsp;&amp;</span><span class="S8">=</span><span class="S15">&nbsp;_WinHttpReadData</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Until</span><span class="S6">&nbsp;@error</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; Print returned</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S9">$sReturned</span><span class="S8">)</span><br>
+Else<br><span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWriteError</span><span class="S8">(</span><span class="S7">"!No data available."</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;MsgBox</span><span class="S8">(</span><span class="S3">48</span><span class="S8">,</span><span class="S7">&nbsp;"Failure"</span><span class="S8">,</span><span class="S7">&nbsp;"No data available."</span><span class="S8">)</span><br>
+EndIf<br><br><span class="S2">; Close handles</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>

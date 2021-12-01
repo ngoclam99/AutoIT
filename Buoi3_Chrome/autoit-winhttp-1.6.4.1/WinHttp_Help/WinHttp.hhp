@@ -1,0 +1,68 @@
+[OPTIONS]
+Compatibility=1.0
+Compiled File=WinHttp .chm
+Title=WinHttp Help
+Default Window=NewWindow
+Display compile progress=Yes
+Display compile notes=Yes
+Default Font=Segoe UI, 9
+Default topic=html\Functions\IFame.htm
+Language=0x409
+Full-text search=No
+
+[WINDOWS]
+NewWindow="WinHttp 1.6.4.1 Help","","","html\Functions\IFame.htm","",,,,,0x20420,0,0x0,,0x10030000,,,1,,,0
+
+[FILES]
+html\Functions\_WinHttpAddRequestHeaders.htm
+html\Functions\_WinHttpCheckPlatform.htm
+html\Functions\_WinHttpCloseHandle.htm
+html\Functions\_WinHttpConnect.htm
+html\Functions\_WinHttpCrackUrl.htm
+html\Functions\_WinHttpCreateUrl.htm
+html\Functions\_WinHttpDetectAutoProxyConfigUrl.htm
+html\Functions\_WinHttpGetDefaultProxyConfiguration.htm
+html\Functions\_WinHttpGetIEProxyConfigForCurrentUser.htm
+html\Functions\_WinHttpOpen.htm
+html\Functions\_WinHttpOpenRequest.htm
+html\Functions\_WinHttpQueryAuthSchemes.htm
+html\Functions\_WinHttpQueryDataAvailable.htm
+html\Functions\_WinHttpQueryHeaders.htm
+html\Functions\_WinHttpQueryOption.htm
+html\Functions\_WinHttpReadData.htm
+html\Functions\_WinHttpReceiveResponse.htm
+html\Functions\_WinHttpSendRequest.htm
+html\Functions\_WinHttpSetCredentials.htm
+html\Functions\_WinHttpSetDefaultProxyConfiguration.htm
+html\Functions\_WinHttpSetOption.htm
+html\Functions\_WinHttpSetStatusCallback.htm
+html\Functions\_WinHttpSetTimeouts.htm
+html\Functions\_WinHttpSimpleBinaryConcat.htm
+html\Functions\_WinHttpSimpleFormFill.htm
+html\Functions\_WinHttpSimpleFormFill_SetUploadCallback.htm
+html\Functions\_WinHttpSimpleReadData.htm
+html\Functions\_WinHttpSimpleReadDataAsync.htm
+html\Functions\_WinHttpSimpleRequest.htm
+html\Functions\_WinHttpSimpleSendRequest.htm
+html\Functions\_WinHttpSimpleSendSSLRequest.htm
+html\Functions\_WinHttpSimpleSSLRequest.htm
+html\Functions\_WinHttpTimeFromSystemTime.htm
+html\Functions\_WinHttpTimeToSystemTime.htm
+html\Functions\_WinHttpWriteData.htm
+html\CHM_HomePage.htm
+html\Functions\TOC.htm
+html\Functions\Functions.htm
+html\Functions\tetris.htm
+html\Images\back0.png
+html\Images\back1.png
+html\Images\back2.png
+html\Images\ex.png
+html\Images\fwd0.png
+html\Images\fwd1.png
+html\Images\fwd2.png
+html\Images\home0.png
+html\Images\home1.png
+html\Images\print0.png
+html\Images\print1.png
+html\Images\search.png
+html\Images\WinHttp.jpg

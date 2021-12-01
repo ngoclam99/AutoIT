@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>_WinHttpSetStatusCallback</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <link href="../CSS/Default1.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../JScript/Script_Right.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<!--Description Section-->
+        <h1 class="small">Function Reference</h1>
+        <hr style="height:0px">
+        <h1>_WinHttpSetStatusCallback</h1>
+        <p class="funcdesc">Sets up a callback function that WinHttp can call as progress is made during an operation.<br></p>
+
+<!--Syntax Section-->
+        <h2>Syntax</h2>
+        <p>        <p class="codeheader">
+        #include "WinHttp.au3"<br>
+        _WinHttpSetStatusCallback($hInternet, $hInternetCallback [, $iNotificationFlags = Default ])<br>
+        </p>
+
+<!--Parameters Section-->
+        <h2>Parameters</h2>
+        <table class="paramstable">
+            <tr>
+                <td class="leftpane">$hInternet</td>
+                <td class="rightpane">Handle for which the callback is to be set.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$hInternetCallback</td>
+                <td class="rightpane">Callback function to call when progress is made.</td>
+            </tr>
+            <tr>
+                <td class="leftpane">$iNotificationFlags</td>
+                <td class="rightpane"><b>[optional]</b> Flags to indicate which events activate the callback function. Default is $WINHTTP_CALLBACK_FLAG_ALL_NOTIFICATIONS.</td>
+            </tr>
+        </table>
+
+<!--Return Value Section-->
+        <h2>Return Value</h2>
+        <p>Success - Returns a pointer to the previously defined status callback function or NULL if there was no previously defined status callback function.<br>
+        Failure - Returns 0 and sets @error:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - DllCall failed</p>
+
+<!--Remarks Section-->
+<!--Related Section-->
+        <h2>Related</h2><a onclick='UpdateLocation("_WinHttpOpen")' href="_WinHttpOpen.htm">_WinHttpOpen</a>
+        <br>
+
+<!--Link Section-->
+        <h2>See Also</h2>
+        <a title="External link" href="http://msdn.microsoft.com/en-us/library/aa384115.aspx" onclick='MSDN_Nav("http://msdn.microsoft.com/en-us/library/aa384115.aspx", "_WinHttpSetStatusCallback");return false;'>MSDN</a>
+
+        <br>
+
+<!--Example Section-->
+        <h2>Example</h2>
+<a class="button" onmouseover="Btn_OnMouseOver(this)" onmouseout='Btn_OnMouseOut(this, "divtip")' onclick='BTN_OnClick("au3code", "divtip")'>Copy to clipboard</a><p class="codebox" id="au3code"><br> 
+<br><br><span class="S11">#include<span class="S7">&nbsp;"WinHttp.au3"</span></span><br><br>
+<span class="S4">Opt</span><span class="S8">(</span><span class="S7">"MustDeclareVars"</span><span class="S8">,</span><span class="S3">&nbsp;1</span><span class="S8">)</span><br><br>
+<span class="S2">; Register Callback function</span><br>
+Global<span class="S9">&nbsp;$hWINHTTP_STATUS_CALLBACK</span><span class="S8">&nbsp;=</span><span class="S4">&nbsp;DllCallbackRegister</span><span class="S8">(</span><span class="S7">"__WINHTTP_STATUS_CALLBACK"</span><span class="S8">,</span><span class="S7">&nbsp;"none"</span><span class="S8">,</span><span class="S7">&nbsp;"handle;dword_ptr;dword;ptr;dword"</span><span class="S8">)</span><br>
+<span class="S2">; Initialize and get session handle</span><br>
+Global<span class="S9">&nbsp;$hOpen</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpen</span><span class="S8">(</span><span class="S8">)</span><br>
+<span class="S2">; Associate callback function with this handle</span><br>
+<span class="S15">_WinHttpSetStatusCallback</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S9">&nbsp;$hWINHTTP_STATUS_CALLBACK</span><span class="S8">)</span><br><br>
+<span class="S2">; Get connection handle</span><br>
+Global<span class="S9">&nbsp;$hConnect</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpConnect</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">,</span><span class="S7">&nbsp;"google.com"</span><span class="S8">)</span><br>
+<span class="S2">; Specify the reguest:</span><br>
+Global<span class="S9">&nbsp;$hRequest</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpOpenRequest</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S2">; Send request</span><br>
+<span class="S15">_WinHttpSendRequest</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S2">; Wait for the response</span><br>
+<span class="S15">_WinHttpReceiveResponse</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br><br>
+Global<span class="S9">&nbsp;$sHeader</span><br>
+<span class="S2">; If there is data available...</span><br>
+If<span class="S15">&nbsp;_WinHttpQueryDataAvailable</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S5">&nbsp;Then</span><span class="S9">&nbsp;$sHeader</span><span class="S8">&nbsp;=</span><span class="S15">&nbsp;_WinHttpQueryHeaders</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><span class="S2">&nbsp;; ...get full header</span><br><br>
+<span class="S2">; Clean</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hRequest</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hConnect</span><span class="S8">)</span><br>
+<span class="S15">_WinHttpCloseHandle</span><span class="S8">(</span><span class="S9">$hOpen</span><span class="S8">)</span><br><br>
+<span class="S2">; Display retrieved header</span><br>
+<span class="S4">ConsoleWrite</span><span class="S8">(</span><span class="S6">@CRLF</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$sHeader</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br><br>
+<span class="S2">; Sleep few seconds to see if there are more events</span><br>
+<span class="S4">Sleep</span><span class="S8">(</span><span class="S3">2000</span><span class="S8">)</span><br><br>
+<span class="S2">; Free the callback when no longer needed (can be omitted in this case)</span><br>
+<span class="S4">DllCallbackFree</span><span class="S8">(</span><span class="S9">$hWINHTTP_STATUS_CALLBACK</span><span class="S8">)</span><br><br><br>
+<span class="S2">; Define callback function</span><br>
+Func<span class="S4">&nbsp;__WINHTTP_STATUS_CALLBACK</span><span class="S8">(</span><span class="S9">$hInternet</span><span class="S8">,</span><span class="S9">&nbsp;$iContext</span><span class="S8">,</span><span class="S9">&nbsp;$iInternetStatus</span><span class="S8">,</span><span class="S9">&nbsp;$pStatusInformation</span><span class="S8">,</span><span class="S9">&nbsp;$iStatusInformationLength</span><span class="S8">)</span><br>
+<span class="S12">&nbsp;&nbsp;&nbsp;&nbsp;#forceref<span class="S9">&nbsp;$hInternet</span>,<span class="S9">&nbsp;$iContext</span>,<span class="S9">&nbsp;$pStatusInformation</span>,<span class="S9">&nbsp;$iStatusInformationLength</span></span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S7">"!-&gt;Current status of the connection: "</span><span class="S8">&nbsp;&amp;</span><span class="S9">&nbsp;$iInternetStatus</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"    "</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@TAB</span><span class="S8">&nbsp;&amp;</span><span class="S7">&nbsp;"    "</span><span class="S8">)</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; Interpret the status</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Local</span><span class="S9">&nbsp;$sStatus</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;Switch</span><span class="S9">&nbsp;$iInternetStatus</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_CLOSING_CONNECTION</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Closing the connection to the server"</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_CONNECTED_TO_SERVER</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Successfully connected to the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_CONNECTING_TO_SERVER</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Connecting to the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_CONNECTION_CLOSED</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Successfully closed the connection to the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Data is available to be retrieved with WinHttpReadData."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_HANDLE_CREATED</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"An HINTERNET handle has been created."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_HANDLE_CLOSING</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"This handle value has been terminated."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"The response header has been received and is available with WinHttpQueryHeaders."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_INTERMEDIATE_RESPONSE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Received an intermediate (100 level) status code message from the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_NAME_RESOLVED</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Successfully found the IP address of the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_READ_COMPLETE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Data was successfully read from the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_RECEIVING_RESPONSE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Waiting for the server to respond to a request."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_REDIRECT</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"An HTTP request is about to automatically redirect the request."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_REQUEST_ERROR</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"An error occurred while sending an HTTP request."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_REQUEST_SENT</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Successfully sent the information request to the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_RESOLVING_NAME</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Looking up the IP address of a server name."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_RESPONSE_RECEIVED</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Successfully received a response from the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_SECURE_FAILURE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"One or more errors were encountered while retrieving a Secure Sockets Layer (SSL) certificate from the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_SENDING_REQUEST</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Sending the information request to the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"The request completed successfully."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case</span><span class="S9">&nbsp;$WINHTTP_CALLBACK_STATUS_WRITE_COMPLETE</span><br>
+<span class="S9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sStatus</span><span class="S8">&nbsp;=</span><span class="S7">&nbsp;"Data was successfully written to the server."</span><br>
+<span class="S5">&nbsp;&nbsp;&nbsp;&nbsp;EndSwitch</span><br>
+<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;; Print it</span><br>
+<span class="S4">&nbsp;&nbsp;&nbsp;&nbsp;ConsoleWrite</span><span class="S8">(</span><span class="S9">$sStatus</span><span class="S8">&nbsp;&amp;</span><span class="S6">&nbsp;@CRLF</span><span class="S8">)</span><br>
+EndFunc<span class="S2">&nbsp;&nbsp;&nbsp;&nbsp;;==>__WINHTTP_STATUS_CALLBACK</span><br><br>
+</p><br>
+        <div id="divtip" name="divtip" class="tip"></div>
+
+    </body>
+</html>
